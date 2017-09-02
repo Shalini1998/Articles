@@ -1,0 +1,60 @@
+<%- model_class = Article -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:title) %>:</strong></dt>
+  <dd><%= @article.title %></dd>
+  <%= image_tag @article.image %>
+
+  <dt><strong><%= model_class.human_attribute_name(:Firstname) %>:</strong></dt>
+  <dd><%= @article.Firstname %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:Lastname) %>:</strong></dt>
+  <dd><%= @article.Lastname %></dd>
+  <!-- <dt><strong><%= model_class.human_attribute_name(:image) %>:</strong></dt> -->
+  <!-- <dd><%= @article.image %></dd> -->
+  <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
+ <dd><%= @article.description.html_safe %></dd>
+  
+  
+</dl>
+
+
+
+<h2>Comments</h2>
+<dl class="dl-horizontal">
+<% @article.comments.each do |comment| %>
+  
+  <dt><strong><%= model_class.human_attribute_name(:commenter) %>:</strong></dt>
+    <dd><%= comment.commenter %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:body) %>:</strong></dt>
+    <dd><%= comment.body %></dd>
+
+<% end %>
+</dl>
+<h2>Add a comment:</h2>
+<dl class="dl-horizontal">
+<%= form_for([@article, @article.comments.build]) do |f| %>
+ 
+  <dt><strong><%= model_class.human_attribute_name(:commenter) %>:</strong></dt>
+    <dd><%= f.text_field :commenter %></dd>
+ 
+    <dt><strong><%= model_class.human_attribute_name(:body) %>:</strong></dt>
+    <dd><%= f.text_area :body  %></dd>
+  
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
+</dl>
+
+<%= link_to t('.back', :default => t("helpers.links.back")),
+              articles_path, :class => 'btn btn-default'  %>
+<%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_article_path(@article), :class => 'btn btn-default' %>
+<%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              article_path(@article),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
