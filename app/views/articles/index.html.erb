@@ -2,7 +2,8 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
-<table class="table table-striped">
+
+<!-- <table class="table table-striped">
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:id) %></th>
@@ -37,7 +38,26 @@
       </tr>
     <% end %>
   </tbody>
-</table>
+</table> -->
+
+<% @articles.each do |article| %>
+  <div class="article-container">
+    <%= image_tag article.image %>
+  </div>
+  <div class="article-details">
+    <h5>Posted By <%= article.author %></h5>
+    <h5>Posted On <%= article.created_at.strftime("%b-%d-%Y") %></h5>
+    <div class="article-container">
+    <h1><%= article.title %></h1>
+    </div>
+  </div>
+  <div>
+     <div class="article-container">
+    <h5><%= truncate(article.description, length: 500).html_safe %></h5>
+    <%= link_to 'Read Article', article, class: "btn btn-success btn-lg" %>
+  </div>
+
+<% end %>
 
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_article_path,
