@@ -50,13 +50,22 @@
     <div class="article-container">
     <h1><%= article.title %></h1>
     </div>
+
   </div>
   <div>
      <div class="article-container">
     <h5><%= truncate(article.description, length: 500).html_safe %></h5>
-    <%= link_to 'Read Article', article, class: "btn btn-success btn-lg" %>
+    <div style="margin-top: 30px";>
+    <%= link_to 'Continue Reading', article, class: "btn btn-success btn-lg" %>
+    <div style="margin-top: 30px";>
   </div>
 
+
+
+<% end %>
+
+<% @lastArticle.each do |article| %>
+<h1><%= article.title %></h1>
 <% end %>
 
 <%= link_to t('.new', :default => t("helpers.links.new")),

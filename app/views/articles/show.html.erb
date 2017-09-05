@@ -1,78 +1,68 @@
-
 <section id="page_header" class="container">
   <h1 id="page-title"><%= @article.title %></h1>
 </section>
-  
-  
-
-<div class="container">
-  <div style="margin-top: 50px";>
-    <%= image_tag @article.image %>
-  </div>
+<div class="col-md-9">
   <div class="row">
-    <div class="col-md-9">
-      <div class="col-md-4">
-        <h4>Posted By : <%= @article.author %></h4>
-      </div>
-      <div class="col-md-4">
-        <h4>Posted On : <%= @article.created_at.strftime("%b-%d-%Y") %></h4>
-      </div>
-      <div class="col-md-4">
-        <% if @article.comments.present? %>
-          <h5><%= @article.comments.count %> Comments</h5>
-        <% else %>
-          <h5>No Comments Yet</h5>
-        <% end %>
-      </div>
-      <%= @article.description.html_safe %>
+    <div style="margin-top: 50px";>
+      <%= image_tag @article.image %>
     </div>
-  </div>
-</div>
+    
+    <div class="col-md-4">
+      <h5>Posted By : <%= @article.author %></h5>
+    </div>
 
-<h2>Comments</h2>
-<dl class="dl-horizontal">
-<% @article.comments.each do |comment| %>
-  
-  <dt><strong>Commenter:</strong></dt>
+    <div class="col-md-4">
+      <h5>Posted On : <%= @article.created_at.strftime("%b-%d-%Y") %></h5>
+    </div>
+
+    <div class="col-md-4">
+     <% if @article.comments.present? %>
+     <h5><%= @article.comments.count %> Comments</h5>
+     <% else %> 
+     <h5>No Comments Yet</h5>
+     <% end %>
+   </div>
+   <%= @article.description.html_safe %>
+
+
+  <h2>Comments</h2>
+  <dl class="dl-horizontal">
+    <% @article.comments.each do |comment| %>
+    
+    <dt><strong>Commenter:</strong></dt>
     <dd><%= comment.commenter %></dd>
-  <dt><strong>Comment:</strong></dt>
+    <dt><strong>Comment:</strong></dt>
     <dd><%= comment.body %></dd>
+    <% end %>
+  </dl>
+  <h2>Add a comment:</h2>
+    <dl class="dl-horizontal">
+    <%= form_for([@article, @article.comments.build]) do |f| %>
 
-
-
-
-
-
-<% end %>
-</dl>
-<h2>Add a comment:</h2>
-<dl class="dl-horizontal">
-<%= form_for([@article, @article.comments.build]) do |f| %>
- 
-  <dt><strong>Commenter</strong></dt>
+    <dt><strong>Commenter</strong></dt>
     <dd><%= f.text_field :commenter %></dd>
- 
+
     <dt><strong>Body</strong></dt>
     <dd><%= f.text_area :body  %></dd>
-  
-  <p>
-    <%= f.submit %>
-  </p>
- 
+    
+    <p>
+      <%= f.submit %>
+    </p>
+    <% end %>
+  </dl>
 
-<% end %>
-</dl>
+      <%= link_to t('.back', :default => t("helpers.links.back")),
+      articles_path, :class => 'btn btn-default'  %>
 
-<%= link_to t('.back', :default => t("helpers.links.back")),
-              articles_path, :class => 'btn btn-default'  %>
+      <% if can? :update, @article %>
+      <%= link_to t('.edit', :default => t("helpers.links.edit")),
+      edit_article_path(@article), :class => 'btn btn-default' %>
+      <% end %>
 
-              <% if can? :update, @article %>
-<%= link_to t('.edit', :default => t("helpers.links.edit")),
-edit_article_path(@article), :class => 'btn btn-default' %>
-              <% end %>
-
-<%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              article_path(@article),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
+      <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+      article_path(@article),
+      :method => 'delete',
+      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+      :class => 'btn btn-danger' %>
+  </div>    
+</div>
